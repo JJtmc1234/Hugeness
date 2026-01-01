@@ -163,8 +163,8 @@ export class HugeNumber {
 
     // Regular power
     const newMantissa = Math.pow(this.mantissa, n);
-    const newExponent = this.exponent * n + Math.log10(newMantissa) - Math.log10(this.mantissa);
-    return new HugeNumber(this.mantissa, newExponent, 0);
+    const newExponent = this.exponent * n;
+    return new HugeNumber(newMantissa, newExponent, 0);
   }
 
   /**

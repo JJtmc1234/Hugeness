@@ -32,12 +32,14 @@ export default {
   data() {
     return {
       totalClicks: 0,
-      startTime: Date.now()
+      startTime: Date.now(),
+      currentTime: Date.now(),
+      intervalId: null
     }
   },
   computed: {
     playTime() {
-      const seconds = Math.floor((Date.now() - this.startTime) / 1000);
+      const seconds = Math.floor((this.currentTime - this.startTime) / 1000);
       const minutes = Math.floor(seconds / 60);
       const hours = Math.floor(minutes / 60);
       
@@ -52,9 +54,15 @@ export default {
   },
   mounted() {
     // Update play time every second
-    setInterval(() => {
-      this.$forceUpdate();
+    this.intervalId = setInterval(() => {
+      this.currentTime = Date.now();
     }, 1000);
+  },
+  beforeUnmount() {
+    // Clean up interval to prevent memory leaks
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
   }
 }
 </script>
